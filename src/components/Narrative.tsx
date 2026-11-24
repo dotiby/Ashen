@@ -25,7 +25,7 @@ export function Narrative() {
           </p>
           <p>
             It carries no instructions beyond the moment it was lit. On GIWA Sepolia it
-            moves as a testnet token while its launch parameters are finalized. The light
+            trades as an ownerless token that can graduate to an Ammora pool. The light
             does not promise direction. It only continues.
           </p>
           <blockquote className="story__quote">

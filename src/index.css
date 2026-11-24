@@ -29,7 +29,6 @@
     "Segoe UI", sans-serif;
   --font-mono: ui-monospace, "SFMono-Regular", "Cascadia Mono", Consolas, monospace;
   --header-height: 96px;
-  --sprite-size: clamp(90px, 8vw, 124px);
   --noise: url("data:image/svg+xml,%3Csvg viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
 
   color-scheme: light;
@@ -620,7 +619,7 @@ button {
   line-height: 1.68;
 }
 
-/* Throne game */
+/* Procession builder */
 
 .procession {
   position: relative;
@@ -650,117 +649,54 @@ button {
   max-width: 36rem;
 }
 
-.game__panel {
+.procession__tools {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
   margin-top: 36px;
-  padding: 22px;
+  padding: 20px 22px;
   border: 1px solid var(--line);
-  border-radius: 24px;
+  border-radius: 22px;
   background: var(--surface);
   box-shadow: 0 18px 32px -28px rgba(70, 38, 10, 0.45);
 }
 
-.game__status {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  color: var(--muted);
-  font-size: 13px;
-  font-weight: 600;
+.light-counter {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
-.game__status-dot {
+.light-counter__label {
+  color: var(--faint);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.light-counter__value {
+  font-size: clamp(2.5rem, 3.6vw, 3.1rem);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  letter-spacing: -0.05em;
+  line-height: 1;
+}
+
+.light-counter__value::after {
+  content: "";
+  display: inline-block;
   width: 7px;
   height: 7px;
-  flex: 0 0 auto;
+  margin-left: 9px;
   border-radius: 50%;
   background: var(--gold);
-  box-shadow: 0 0 12px rgba(237, 166, 58, 0.8);
+  box-shadow: 0 0 16px rgba(237, 166, 58, 0.8);
+  vertical-align: 0.16em;
 }
 
-.game__start {
-  align-self: flex-start;
-}
-
-.game__pad {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.game__pad-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 48px;
-  height: 48px;
-  border: 1px solid var(--line-strong);
-  border-radius: 50%;
-  background: #fff8ea;
-  color: var(--text);
-  cursor: pointer;
-  touch-action: none;
-  transition:
-    background-color 140ms ease,
-    color 140ms ease,
-    transform 140ms ease;
-}
-
-.game__pad-button:hover {
-  border-color: var(--gold-deep);
-  color: var(--accent);
-}
-
-.game__pad-button:active {
-  transform: scale(0.94);
-  background: var(--gold);
-  border-color: var(--gold-deep);
-  color: var(--on-gold);
-}
-
-.game__pad-track {
-  position: relative;
-  width: 82px;
-  height: 4px;
-  border-radius: 999px;
-  background: var(--line);
-}
-
-.game__pad-knob {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 12px;
-  height: 12px;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-  background: var(--gold);
-  box-shadow: 0 0 0 4px rgba(237, 166, 58, 0.16);
-}
-
-.game__reset {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: var(--faint);
-  font-size: 12.5px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: color 160ms ease;
-}
-
-.game__reset:hover {
-  color: var(--accent);
-}
-
-.game__stage {
-  --sprite-w: var(--sprite-size);
+.stage {
   position: relative;
   width: 100%;
   aspect-ratio: 507 / 571;
@@ -768,119 +704,101 @@ button {
   border: 1px solid rgba(78, 49, 24, 0.3);
   border-radius: 26px;
   background: #170f09;
-  outline: none;
   box-shadow:
     0 34px 60px -34px rgba(64, 32, 6, 0.5),
     0 2px 0 rgba(255, 246, 228, 0.4);
 }
 
-.game__stage:focus-visible {
-  outline: 3px solid var(--gold);
-  outline-offset: -4px;
-}
-
-.game__backdrop {
+.stage__art {
   position: absolute;
   inset: 0;
+  z-index: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.game__throne {
+.stage__canvas {
   position: absolute;
-  right: 7%;
-  bottom: 7%;
+  inset: 0;
   z-index: 2;
-  width: clamp(88px, 19%, 142px);
-  filter: drop-shadow(0 14px 20px rgba(0, 0, 0, 0.55));
-}
-
-.game__throne svg {
   display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
+  outline: none;
+  cursor: crosshair;
+  touch-action: manipulation;
 }
 
-.game__actor {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 3;
-  width: 0;
-  height: 0;
-  will-change: transform;
+.stage__canvas:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: -4px;
+  border-radius: 26px;
 }
 
-.game__sprite {
+.stage__hint {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: var(--sprite-w);
-  max-width: none;
-  height: auto;
-  aspect-ratio: 160 / 220;
-  transform: translate(-50%, -86%);
-  filter: drop-shadow(0 12px 14px rgba(0, 0, 0, 0.45));
-}
-
-.game__bubble {
-  position: absolute;
-  bottom: calc(var(--sprite-w) * 1.2 + 12px);
+  bottom: 22px;
   left: 50%;
   z-index: 4;
-  width: max-content;
-  max-width: min(240px, 62vw);
-  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 11px 17px;
   transform: translateX(-50%);
-  border: 1px solid rgba(168, 84, 17, 0.32);
-  border-radius: 14px;
-  background: var(--cream);
-  color: var(--text);
+  border: 1px solid rgba(255, 221, 163, 0.28);
+  border-radius: 999px;
+  background: rgba(26, 16, 7, 0.82);
+  color: #ffefd2;
   font-size: 12.5px;
-  font-weight: 600;
-  line-height: 1.4;
-  text-align: center;
-  box-shadow: 0 14px 28px -14px rgba(0, 0, 0, 0.48);
-  animation: fade-up 320ms ease both;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+  white-space: nowrap;
+  pointer-events: none;
 }
 
-.game__bubble::after {
+.stage__hint-dot {
+  width: 6px;
+  height: 6px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: var(--gold-bright);
+  box-shadow: 0 0 14px rgba(248, 194, 102, 0.9);
+  animation: breathe 2.8s ease-in-out infinite;
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(0.82);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.12);
+  }
+}
+
+.stage__grain {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0.08;
+  mix-blend-mode: overlay;
+  background-image: var(--noise);
+  background-size: 140px 140px;
+}
+
+.stage::after {
   content: "";
   position: absolute;
-  bottom: -6px;
-  left: 50%;
-  width: 10px;
-  height: 10px;
-  transform: translateX(-50%) rotate(45deg);
-  border-right: 1px solid rgba(168, 84, 17, 0.32);
-  border-bottom: 1px solid rgba(168, 84, 17, 0.32);
-  background: var(--cream);
-}
-
-.game__actor--seated .game__bubble {
-  right: 26px;
-  left: auto;
-  transform: none;
-}
-
-.game__actor--seated .game__bubble::after {
-  right: 18px;
-  left: auto;
-}
-
-.game__stage-tag {
-  position: absolute;
-  top: 16px;
-  left: 18px;
-  z-index: 4;
-  padding: 7px 11px;
-  border-radius: 999px;
-  background: rgba(26, 16, 7, 0.72);
-  color: #ffeccb;
-  font-size: 9.5px;
-  font-weight: 700;
-  letter-spacing: 0.16em;
+  inset: 0;
+  z-index: 5;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 1px rgba(255, 236, 199, 0.16);
 }
 
 /* Story */
@@ -1155,6 +1073,137 @@ button {
   line-height: 1.7;
 }
 
+.contract-address {
+  font-family: var(--font-mono);
+  font-size: 0.82em;
+  letter-spacing: -0.01em;
+  word-break: break-all;
+}
+
+.launch-card {
+  margin-top: 24px;
+  padding: clamp(24px, 3vw, 40px);
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background: var(--surface);
+  box-shadow: 0 30px 60px -50px rgba(70, 38, 10, 0.55);
+}
+
+.launch-card__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.launch-platform {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.launch-platform__mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  flex: 0 0 auto;
+  border-radius: 15px;
+  background: linear-gradient(180deg, #2b1d10, #1a1109);
+  box-shadow: inset 0 0 0 1px rgba(237, 166, 58, 0.4);
+  color: var(--gold-bright);
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.launch-platform__logo {
+  width: 48px;
+  height: 48px;
+  flex: 0 0 auto;
+  object-fit: contain;
+}
+
+.launch-platform__text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.launch-platform__text strong {
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.launch-platform__text span {
+  color: var(--faint);
+  font-size: 12.5px;
+}
+
+.launch-card__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.launch-card__links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 180ms ease;
+}
+
+.launch-card__links a:hover {
+  color: var(--accent);
+}
+
+.launch-facts {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  margin: 28px 0 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--line);
+}
+
+.launch-fact {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 18px 20px;
+  background: var(--surface-warm);
+}
+
+.launch-fact dt {
+  color: var(--faint);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.launch-fact dd {
+  font-size: 17px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.launch-card__foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 28px;
+  margin-top: 18px;
+  color: var(--faint);
+  font-size: 12.5px;
+}
+
 /* Network badge */
 
 .network-badge {
@@ -1401,7 +1450,7 @@ button {
     max-width: 700px;
   }
 
-  .game__stage {
+  .stage {
     width: min(100%, 540px);
     justify-self: center;
   }
@@ -1428,6 +1477,10 @@ button {
   .token-panel__aside {
     border-top: 1px solid var(--line);
     border-left: 0;
+  }
+
+  .launch-facts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -1567,30 +1620,26 @@ button {
     font-size: 18px;
   }
 
-  .game__panel {
+  .procession__tools {
     gap: 14px;
-    padding: 18px;
+    padding: 17px 18px;
   }
 
-  .game__pad {
-    gap: 10px;
+  .light-counter__value {
+    font-size: 2.3rem;
   }
 
-  .game__pad-button {
-    width: 44px;
-    height: 44px;
+  .button--quiet {
+    padding: 0 15px;
   }
 
-  .game__pad-track {
-    width: 66px;
-  }
-
-  .game__stage {
+  .stage {
     border-radius: 22px;
   }
 
-  .game__bubble {
-    max-width: 190px;
+  .stage__hint {
+    bottom: 16px;
+    padding: 10px 14px;
     font-size: 11.5px;
   }
 
@@ -1624,6 +1673,20 @@ button {
 
   .spec-note {
     font-size: 12px;
+  }
+
+  .launch-card__head {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .launch-fact {
+    padding: 14px 16px;
+  }
+
+  .launch-fact dd {
+    font-size: 15px;
   }
 
   .footer__top {
@@ -1669,5 +1732,10 @@ button {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  .stage__hint-dot {
+    opacity: 1;
+    transform: none;
   }
 }

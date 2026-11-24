@@ -1,6 +1,6 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { ArrowUpRight, Check, Copy } from "lucide-react";
-import { NETWORK, TOKEN } from "../config";
+import { LAUNCH, NETWORK, TOKEN } from "../config";
 import { NetworkBadge } from "./NetworkBadge";
 import { TokenLogo } from "./TokenLogo";
 
@@ -9,6 +9,15 @@ function SpecRow({ label, children }: { label: string; children: ReactNode }) {
     <div className="spec-row">
       <dt>{label}</dt>
       <dd>{children}</dd>
+    </div>
+  );
+}
+
+function Fact({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="launch-fact">
+      <dt>{label}</dt>
+      <dd>{value}</dd>
     </div>
   );
 }
@@ -50,8 +59,8 @@ export function TokenInfo() {
             </p>
             <h2 id="token-title">Ashen, on the record.</h2>
             <p className="section-lead">
-              What is known, what is pending, and where to check. Unconfirmed parameters
-              stay unconfirmed here.
+              Supply, contract, and launch parameters — confirmed against the live
+              launchpad listing.
             </p>
           </div>
           <div className="token__seal" aria-hidden="true">
@@ -84,7 +93,7 @@ export function TokenInfo() {
               </SpecRow>
               <SpecRow label="Contract">
                 <span className="contract-line">
-                  <span className={hasAddress ? "mono" : "pending"}>
+                  <span className={hasAddress ? "mono contract-address" : "pending"}>
                     {hasAddress ? TOKEN.contractAddress : TOKEN.contractStatus}
                   </span>
                   <button
@@ -116,12 +125,12 @@ export function TokenInfo() {
 
             <a
               className="aside-link"
-              href={NETWORK.explorerUrl}
+              href={TOKEN.contractLink}
               target="_blank"
               rel="noopener noreferrer"
             >
               <span>
-                <strong>GIWA explorer</strong>
+                <strong>View contract</strong>
                 <span>sepolia-explorer.giwa.io</span>
               </span>
               <ArrowUpRight size={16} strokeWidth={1.8} aria-hidden="true" />
@@ -129,12 +138,12 @@ export function TokenInfo() {
 
             <a
               className="aside-link"
-              href={NETWORK.launchpadUrl}
+              href={TOKEN.buyUrl}
               target="_blank"
               rel="noopener noreferrer"
             >
               <span>
-                <strong>Numen launchpad</strong>
+                <strong>Buy ASHN</strong>
                 <span>testnet.numen.cash</span>
               </span>
               <ArrowUpRight size={16} strokeWidth={1.8} aria-hidden="true" />
@@ -154,14 +163,64 @@ export function TokenInfo() {
             </a>
 
             <div className="aside-note">
-              <p className="aside-note__label">Pending at launch</p>
+              <p className="aside-note__label">From the launchpad</p>
               <p>
-                Total supply, fee percentages, the graduation threshold, and the final
-                contract address are defined by the Numen launch contract and confirmed at
-                deployment.
+                Ashen trades as an ownerless token on a bonding curve and can graduate
+                to an Ammora pool. Launch parameters shown here are taken from the live
+                listing.
               </p>
             </div>
           </aside>
+        </div>
+
+        <div className="launch-card">
+          <div className="launch-card__head">
+            <div className="launch-platform">
+              {LAUNCH.logo ? (
+                <img
+                  className="launch-platform__logo"
+                  src={LAUNCH.logo}
+                  alt=""
+                  width="48"
+                  height="48"
+                />
+              ) : (
+                <span className="launch-platform__mark" aria-hidden="true">
+                  N
+                </span>
+              )}
+              <div className="launch-platform__text">
+                <strong>{LAUNCH.platform}</strong>
+                <span>Launchpad · {LAUNCH.handle}</span>
+              </div>
+            </div>
+            <div className="launch-card__links">
+              <a href={NETWORK.launchpadUrl} target="_blank" rel="noopener noreferrer">
+                Launchpad
+                <ArrowUpRight size={14} strokeWidth={2} aria-hidden="true" />
+              </a>
+              <a href={LAUNCH.xUrl} target="_blank" rel="noopener noreferrer">
+                {LAUNCH.handle} on X
+                <ArrowUpRight size={14} strokeWidth={2} aria-hidden="true" />
+              </a>
+            </div>
+          </div>
+
+          <dl className="launch-facts">
+            <Fact label="Total supply" value={TOKEN.supply} />
+            <Fact label="On the curve" value={LAUNCH.curveSupply} />
+            <Fact label="To the pool" value={LAUNCH.poolSupply} />
+            <Fact label="Ammora migration" value={LAUNCH.migrationAt} />
+            <Fact label="Curve fee" value={LAUNCH.curveFee} />
+            <Fact label="Creator share" value={LAUNCH.creatorShare} />
+            <Fact label="Pool fee" value={LAUNCH.poolFee} />
+            <Fact label="Quote asset" value={LAUNCH.quote} />
+          </dl>
+
+          <div className="launch-card__foot">
+            <span>Anti-snipe: {LAUNCH.antiSnipe}</span>
+            <span>Max wallet: {LAUNCH.maxWallet}</span>
+          </div>
         </div>
       </div>
     </section>

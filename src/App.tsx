@@ -2,7 +2,7 @@ import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
 import { Hero } from "./components/Hero";
 import { Narrative } from "./components/Narrative";
-import { ThroneGame } from "./components/ThroneGame";
+import { ProcessionBuilder } from "./components/ProcessionBuilder";
 import { TokenInfo } from "./components/TokenInfo";
 
 function App() {
@@ -14,7 +14,7 @@ function App() {
       <Header />
       <main id="main">
         <Hero />
-        <ThroneGame />
+        <ProcessionBuilder />
         <Narrative />
         <TokenInfo />
       </main>

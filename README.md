@@ -69,6 +69,7 @@ ashen/
 │  │  ├─ ThroneGame.tsx
 │  │  ├─ TokenInfo.tsx
 │  │  └─ TokenLogo.tsx           Single source for the token artwork
+│  ├─ lib/procession.ts          Canvas lights + local session state
 │  ├─ App.tsx
 │  ├─ config.ts                  Token + network values
 │  ├─ index.css
@@ -78,13 +79,16 @@ ashen/
 
 ## Updating token values
 
-Everything token- and network-related lives in `src/config.ts`.
+Everything token-, network-, and launch-related lives in `src/config.ts`.
 
-- `TOKEN.logo` — path to the token artwork.
-- `TOKEN.buyUrl` — empty by default. Set the final Buy link here and the placeholder
-  button becomes a real link automatically.
-- `TOKEN.contractAddress` — the contract copy button enables once this is non-empty.
-- `TOKEN.supply` / launch fields — update once parameters are confirmed.
+- `TOKEN.contractAddress` / `TOKEN.buyUrl` — already set to the live CA and Numen token
+  link. The hero button is a real link and the copy button is enabled.
+- `TOKEN.logo` — the exact token artwork used everywhere.
+- `LAUNCH.logo` — empty by default. Drop the Numen Cash logo into `public/` and set its
+  path here; a styled `N` mark is shown until then.
+- `LAUNCH.*` — launchpad figures from the live listing (supply split, fees, migration
+  threshold, quote asset, anti-snipe, max wallet).
+- `NETWORK.*` — GIWA Sepolia chain values and official links.
 
 ## Implemented features
 
@@ -92,18 +96,17 @@ Everything token- and network-related lives in `src/config.ts`.
   burnt-gold accents, oversized type, rounded cards, and generous spacing.
 - The **exact token artwork** is the brand mark: header, hero identity, hero card,
   interactive stage, token seal, footer, and favicons. No redrawn or separate logo.
-- Hero right column shows the token artwork with a prominent gold **Buy Now** button.
-  The button is a placeholder until `TOKEN.buyUrl` is set.
-- Throne game in the middle section: press **Start the journey**, move the hooded figure
-  with `←` `→` / `A` `D` (and `↑` `↓` for a little lift) or the on-screen pad, and reach
-  the throne. On arrival, a random short financial advice appears above the figure.
-- Ten different advices rotate randomly; each play gives a different one.
-- Restart / Play again resets the figure and draws a new advice.
-- Smooth, frame-rate-independent keyboard and touch controls.
-- Reduced-motion support in CSS.
-- Accessible focus states, skip link, live status, and descriptive links.
-- Token information with the official GIWA symbol, explorer/launchpad/docs links, and
-  pending contract state.
+- Hero right column shows the token artwork with a prominent gold **Buy Now** link pointing
+  to the live Numen token page.
+- Procession Builder: tap/click the painting to place warm lights and embers on the
+  original artwork, with a live "Lights placed" counter and Restart.
+- Keyboard support: focus the canvas and press `Enter` or `Space`.
+- Reduced-motion support in CSS and the canvas scene.
+- Token panel with the full contract address, working copy button, explorer link, and
+  live launch parameters displayed in a clean facts grid.
+- Launchpad identity: **Numen Cash** / `@numencash` with links to the launchpad and X;
+  official GIWA symbol used in light and dark variants.
+- Accessible focus states, skip link, live counter, and descriptive links.
 - Self-hosted font and artwork; no external image or font requests at runtime.
 - Responsive layout from 320 px to desktop.
 
